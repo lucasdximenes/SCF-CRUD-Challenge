@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+require("express-async-errors");
 import { Request, Response } from "express";
 
 const app = express();
