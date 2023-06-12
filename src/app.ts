@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 require("express-async-errors");
 import { Request, Response } from "express";
+import ErrorHandlingMiddleware from "./middlewares/error.middleware";
 
 const app = express();
 /* 
@@ -20,5 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/", (_req: Request, res: Response): void => {
   res.send("SCF - CRUD Challenge");
 });
+
+app.use(ErrorHandlingMiddleware.handle);
 
 export default app;
