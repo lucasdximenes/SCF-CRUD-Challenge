@@ -68,7 +68,7 @@ describe("User Model", () => {
     sinon.stub(fs, "writeFile").resolves();
 
     const userModel = new UserModel();
-    const user = await userModel.update(userMock);
+    const user = await userModel.update(userMock.id, userMock);
 
     chai.expect(user).to.be.deep.equal(userMock);
     // Testa se o usuário retornado é igual ao usuário mockado.
