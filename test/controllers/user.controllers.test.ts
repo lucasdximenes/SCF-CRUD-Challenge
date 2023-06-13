@@ -25,6 +25,7 @@ describe("UserControllers", () => {
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
       getUserAccessCount: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -57,6 +58,7 @@ describe("UserControllers", () => {
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
       getUserAccessCount: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -83,6 +85,7 @@ describe("UserControllers", () => {
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
       getUserAccessCount: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -111,6 +114,7 @@ describe("UserControllers", () => {
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
       getUserAccessCount: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -145,6 +149,7 @@ describe("UserControllers", () => {
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(userMock),
       getUserAccessCount: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -180,6 +185,7 @@ describe("UserControllers", () => {
         ...userMock,
         accessCount: 5,
       }),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
