@@ -12,4 +12,5 @@ export default interface IUser {
   id: UUID;
   name: string;
   job: string;
+  accessCount?: number;
 }

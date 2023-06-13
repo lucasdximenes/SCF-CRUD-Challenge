@@ -2,8 +2,8 @@ import { UUID } from "crypto";
 import IUser from "../../interfaces/IUser";
 
 export default interface IUserModel {
-  getById(id: UUID): Promise<IUser | null>;
-  getAll(): Promise<IUser[]>;
+  getById(id: UUID, withAccess: boolean): Promise<IUser | null>;
+  getAll(withAccess: boolean): Promise<IUser[]>;
   create(user: Omit<IUser, "id">): Promise<IUser>;
   delete(id: UUID): Promise<void>;
   update(id: UUID, user: Omit<IUser, "id">): Promise<IUser>;

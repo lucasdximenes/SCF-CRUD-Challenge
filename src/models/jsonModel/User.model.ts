@@ -14,8 +14,8 @@ const jsonDatabasePath = path.resolve(
 
 export default class UserModel implements IUserModel {
   // Teste 1
-  public async getById(id: UUID): Promise<IUser | null> {
-    const users = await this.getAll();
+  public async getById(id: UUID, withAccess: boolean): Promise<IUser | null> {
+    const users = await this.getAll(withAccess);
     const user = users.find((user) => user.id === id);
     /* 
       Aqui a abordagem é utilizar o método find() do JavaScript para encontrar
@@ -27,7 +27,7 @@ export default class UserModel implements IUserModel {
   }
 
   // Teste 1
-  public async getAll(): Promise<IUser[]> {
+  public async getAll(withAccess: boolean): Promise<IUser[]> {
     const users = await fs.readFile(jsonDatabasePath, "utf-8");
     /* 
       Aqui eu mudei o arquivo 'fakeData.js' para 'fakeData.json' pois o
@@ -38,13 +38,16 @@ export default class UserModel implements IUserModel {
       E com o arquivo .json nós podemos manter os dados persistidos mesmo
       após o servidor ser desligado.
     */
+    if (!withAccess) return JSON.parse(users);
 
-    return JSON.parse(users);
+    return JSON.parse(users).map(({ accessCount, ...user }: IUser) => ({
+      ...user,
+    }));
   }
 
   // Teste 2
   public async create(newUser: Omit<IUser, "id">): Promise<IUser> {
-    const users = await this.getAll();
+    const users = await this.getAll(false);
     const user: IUser = {
       id: randomUUID(),
       /* 
@@ -68,7 +71,7 @@ export default class UserModel implements IUserModel {
 
   // Teste 3
   public async delete(id: UUID): Promise<void> {
-    const users = await this.getAll();
+    const users = await this.getAll(false);
     const filteredUsers = users.filter((user) => user.id !== id);
     /* 
       Aqui nós utilizamos o método filter() do JavaScript para filtrar os
@@ -88,7 +91,7 @@ export default class UserModel implements IUserModel {
     id: UUID,
     updatedUser: Omit<IUser, "id">
   ): Promise<IUser> {
-    const users = await this.getAll();
+    const users = await this.getAll(true);
     const userIndex = users.findIndex((user) => user.id === id);
     /* 
       Aqui nós utilizamos o método findIndex() do JavaScript para encontrar o
@@ -100,6 +103,7 @@ export default class UserModel implements IUserModel {
       id,
       name: updatedUser.name || users[userIndex].name,
       job: updatedUser.job || users[userIndex].job,
+      accessCount: updatedUser.accessCount || users[userIndex].accessCount,
     };
 
     users[userIndex] = user;
