@@ -73,4 +73,21 @@ describe("User Model", () => {
     chai.expect(user).to.be.deep.equal({ ...userMock, accessCount: 0 });
     // Testa se o usuário retornado é igual ao usuário mockado.
   });
+
+  it("should return permissions of a user", async () => {
+    sinon.stub(fs, "readFile").resolves(
+      JSON.stringify([
+        {
+          ...userMock,
+          permissions: ["delete", "update"],
+        },
+      ])
+    );
+
+    const userModel = new UserModel();
+    const permissions = await userModel.getUserPermissions(userMock.id);
+
+    chai.expect(permissions).to.be.deep.equal(["delete", "update"]);
+    // Testa se as permissões retornadas são iguais as permissões mockadas.
+  });
 });
