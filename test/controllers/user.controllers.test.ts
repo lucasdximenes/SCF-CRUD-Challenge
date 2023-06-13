@@ -22,6 +22,7 @@ describe("UserControllers", () => {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -51,6 +52,7 @@ describe("UserControllers", () => {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -74,6 +76,7 @@ describe("UserControllers", () => {
       getById: sinon.stub().resolves(),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(userMock),
+      delete: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
