@@ -7,6 +7,7 @@ export default interface IUserModel {
   create(user: Omit<IUser, "id">): Promise<IUser>;
   delete(id: UUID): Promise<void>;
   update(id: UUID, user: Omit<IUser, "id">): Promise<IUser>;
+  getUserPermissions(id: UUID): Promise<string[]>;
 }
 
 /* 

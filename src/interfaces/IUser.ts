@@ -13,4 +13,5 @@ export default interface IUser {
   name: string;
   job: string;
   accessCount?: number;
+  permissions?: string[];
 }

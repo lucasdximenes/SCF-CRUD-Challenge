@@ -38,11 +38,14 @@ export default class UserModel implements IUserModel {
       E com o arquivo .json nós podemos manter os dados persistidos mesmo
       após o servidor ser desligado.
     */
-    if (withAccess) return JSON.parse(users);
+    if (withAccess)
+      return JSON.parse(users).map(({ permissions, ...user }: IUser) => user);
 
-    return JSON.parse(users).map(({ accessCount, ...user }: IUser) => ({
-      ...user,
-    }));
+    return JSON.parse(users).map(
+      ({ accessCount, permissions, ...user }: IUser) => ({
+        ...user,
+      })
+    );
   }
 
   // Teste 2
@@ -56,6 +59,8 @@ export default class UserModel implements IUserModel {
         determinado banco de dados.
       */
       ...newUser,
+      permissions: [],
+      accessCount: 0,
     };
 
     users.push(user);
@@ -104,6 +109,7 @@ export default class UserModel implements IUserModel {
       name: updatedUser.name || users[userIndex].name,
       job: updatedUser.job || users[userIndex].job,
       accessCount: updatedUser.accessCount || users[userIndex].accessCount || 0,
+      permissions: updatedUser.permissions || users[userIndex].permissions,
     };
 
     users[userIndex] = user;
@@ -115,5 +121,14 @@ export default class UserModel implements IUserModel {
     */
 
     return user;
+  }
+
+  // Teste 6
+  public async getUserPermissions(id: UUID): Promise<string[]> {
+    const users = await fs.readFile(jsonDatabasePath, "utf-8");
+
+    const user: IUser = JSON.parse(users).find((user: IUser) => user.id === id);
+
+    return user?.permissions || [];
   }
 }
