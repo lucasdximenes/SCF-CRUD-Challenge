@@ -4,6 +4,7 @@ import IUser from "../../interfaces/IUser";
 export default interface IUserModel {
   getById(id: UUID): Promise<IUser | null>;
   getAll(): Promise<IUser[]>;
+  create(user: Omit<IUser, "id">): Promise<IUser>;
 }
 
 /* 

@@ -1,6 +1,6 @@
 import IUserModel from "../interfaces/IUserModel";
 import IUser from "../../interfaces/IUser";
-import { UUID } from "crypto";
+import { UUID, randomUUID } from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
@@ -40,5 +40,29 @@ export default class UserModel implements IUserModel {
     */
 
     return JSON.parse(users);
+  }
+
+  // Teste 2
+  public async create(newUser: Omit<IUser, "id">): Promise<IUser> {
+    const users = await this.getAll();
+    const user: IUser = {
+      id: randomUUID(),
+      /* 
+        A responsabilidade de gerar o ID não é do serviço, e sim do modelo de
+        usuário. Pois o modelo de usuário é quem sabe como criar um usuário em
+        determinado banco de dados.
+      */
+      ...newUser,
+    };
+
+    users.push(user);
+
+    await fs.writeFile(jsonDatabasePath, JSON.stringify(users));
+    /* 
+      Aqui nós utilizamos o método writeFile() do módulo 'fs/promises' para
+      escrever os dados no arquivo fakeData.json.
+    */
+
+    return user;
   }
 }
