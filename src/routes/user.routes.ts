@@ -27,5 +27,7 @@ export default class UserRoutes {
       força bruta (Ficar buscando por IDs sequenciais até encontrar um
       usuário).
     */
+
+    this.router.post("/", this._userController.create);
   }
 }
