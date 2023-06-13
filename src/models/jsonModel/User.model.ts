@@ -38,7 +38,7 @@ export default class UserModel implements IUserModel {
       E com o arquivo .json nós podemos manter os dados persistidos mesmo
       após o servidor ser desligado.
     */
-    if (!withAccess) return JSON.parse(users);
+    if (withAccess) return JSON.parse(users);
 
     return JSON.parse(users).map(({ accessCount, ...user }: IUser) => ({
       ...user,
@@ -103,7 +103,7 @@ export default class UserModel implements IUserModel {
       id,
       name: updatedUser.name || users[userIndex].name,
       job: updatedUser.job || users[userIndex].job,
-      accessCount: updatedUser.accessCount || users[userIndex].accessCount,
+      accessCount: updatedUser.accessCount || users[userIndex].accessCount || 0,
     };
 
     users[userIndex] = user;
