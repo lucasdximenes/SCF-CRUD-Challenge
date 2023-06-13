@@ -25,6 +25,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -43,6 +44,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -66,6 +68,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -82,6 +85,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(userMock),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -98,6 +102,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -115,6 +120,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -135,6 +141,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(userMock),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -151,6 +158,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -174,6 +182,7 @@ describe("UserServices", () => {
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
       update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -183,5 +192,45 @@ describe("UserServices", () => {
     );
 
     expect(user).to.be.deep.equal({ ...userMock, accessCount: 0 });
+  });
+
+  it("should getUserPermissions() return a user permissions", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(userMock),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(["delete", "update"]),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    const permissions = await userServices.getUserPermissions(userMock.id);
+
+    expect(permissions).to.be.deep.equal(["delete", "update"]);
+  });
+
+  it("should getUserPermissions() throw an error if user is not found", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(null),
+      getAll: sinon.stub().resolves(null),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
+      getUserPermissions: sinon.stub().resolves(),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    try {
+      await userServices.getUserPermissions(
+        "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
+      );
+    } catch (err) {
+      const boomErr = err as Boom;
+      expect(isBoom(boomErr)).to.be.true;
+      expect(boomErr.output.statusCode).to.be.equal(404);
+    }
   });
 });
