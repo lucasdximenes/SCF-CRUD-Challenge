@@ -82,4 +82,41 @@ describe("UserServices", () => {
 
     expect(user).to.be.deep.equal(userMock);
   });
+
+  it("should delete() delete a user", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    await userServices.delete("e2d3286f-2d8f-471a-bacb-1e5d28d8727e");
+
+    expect(userModelMock.delete).to.have.been.calledWith(
+      "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
+    );
+    expect(userModelMock.delete).to.have.been.calledOnce;
+  });
+
+  it("should delete() throw an error if user is not found", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(null),
+      getAll: sinon.stub().resolves(null),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    try {
+      await userServices.delete("e2d3286f-2d8f-471a-bacb-1e5d28d8727e");
+    } catch (err) {
+      const boomErr = err as Boom;
+      expect(isBoom(boomErr)).to.be.true;
+      expect(boomErr.output.statusCode).to.be.equal(404);
+    }
+  });
 });
