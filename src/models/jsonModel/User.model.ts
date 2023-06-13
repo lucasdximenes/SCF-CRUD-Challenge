@@ -65,4 +65,21 @@ export default class UserModel implements IUserModel {
 
     return user;
   }
+
+  // Teste 3
+  public async delete(id: UUID): Promise<void> {
+    const users = await this.getAll();
+    const filteredUsers = users.filter((user) => user.id !== id);
+    /* 
+      Aqui nós utilizamos o método filter() do JavaScript para filtrar os
+      usuários que não tem o ID especificado. Ao invés de utilizar um for loop.
+      Isso faz com que o código fique mais legível e mais fácil de entender.
+    */
+
+    await fs.writeFile(jsonDatabasePath, JSON.stringify(filteredUsers));
+    /* 
+      Aqui nós utilizamos o método writeFile() do módulo 'fs/promises' para
+      escrever os dados no arquivo fakeData.json.
+    */
+  }
 }
