@@ -166,4 +166,22 @@ describe("UserServices", () => {
       expect(boomErr.output.statusCode).to.be.equal(404);
     }
   });
+
+  it("should getUserAccessCount() return a user with access count", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(userMock),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    const user = await userServices.getUserAccessCount(
+      "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
+    );
+
+    expect(user).to.be.deep.equal({ ...userMock, accessCount: 0 });
+  });
 });
