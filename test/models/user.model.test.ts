@@ -1,6 +1,9 @@
 import * as chai from "chai";
 import * as sinon from "sinon";
+import sinonChai from "sinon-chai";
 import fs from "fs/promises";
+
+chai.use(sinonChai);
 
 import UserModel from "../../src/models/jsonModel/User.model";
 import { userMock, usersMock } from "../mocks/models/user.mock";
@@ -47,5 +50,15 @@ describe("User Model", () => {
 
     chai.expect(user).to.be.deep.equal(userMock);
     // Testa se o usuário retornado é igual ao usuário mockado.
+  });
+
+  it("Should delete a user", async () => {
+    sinon.stub(fs, "readFile").resolves(JSON.stringify(usersMock));
+    sinon.stub(fs, "writeFile").resolves();
+
+    const userModel = new UserModel();
+    await userModel.delete(userMock.id);
+
+    chai.expect(userModel.delete).to.be.calledOnce;
   });
 });
