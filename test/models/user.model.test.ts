@@ -59,6 +59,7 @@ describe("User Model", () => {
     const userModel = new UserModel();
     await userModel.delete(userMock.id);
 
-    chai.expect(userModel.delete).to.be.calledOnce;
+    chai.expect(fs.writeFile).to.have.been.calledOnce;
+    // Testa se o método writeFile foi chamado uma vez.
   });
 });

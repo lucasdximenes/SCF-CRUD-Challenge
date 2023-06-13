@@ -89,7 +89,7 @@ describe("UserServices", () => {
 
   it("should delete() delete a user", async () => {
     const userModelMock: IUserModel = {
-      getById: sinon.stub().resolves(),
+      getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
@@ -97,11 +97,9 @@ describe("UserServices", () => {
 
     const userServices = new UserServices(userModelMock);
 
-    await userServices.delete("e2d3286f-2d8f-471a-bacb-1e5d28d8727e");
+    await userServices.delete(userMock.id);
 
-    expect(userModelMock.delete).to.have.been.calledWith(
-      "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
-    );
+    expect(userModelMock.delete).to.have.been.calledWith(userMock.id);
     expect(userModelMock.delete).to.have.been.calledOnce;
   });
 
