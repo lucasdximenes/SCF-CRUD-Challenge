@@ -12,19 +12,19 @@ export default class UserServices implements IUserServices {
   }
 
   public async getById(id: UUID): Promise<IUser | null> {
-    const user = await this.userModel.getById(id);
+    const user = await this.userModel.getById(id, false);
 
     if (!user) throw notFound("User not found");
     /* 
       Caso o usuário não seja encontrado, o método getById() irá retornar
       null, e então nós iremos lançar um erro 404 utilizando o pacote Boom.
     */
-
+    this._incrementAccessCount(id);
     return user; // Caso o usuário seja encontrado, nós retornamos o usuário.
   }
 
   public async getAll(): Promise<IUser[]> {
-    const users = await this.userModel.getAll();
+    const users = await this.userModel.getAll(false);
 
     return users; // Independente de ter usuários ou não, nós retornamos um array.
   }
@@ -36,7 +36,7 @@ export default class UserServices implements IUserServices {
   }
 
   public async delete(id: UUID): Promise<void> {
-    const user = await this.userModel.getById(id);
+    const user = await this.userModel.getById(id, false);
 
     if (!user) throw notFound("User not found");
     /* 
@@ -53,12 +53,39 @@ export default class UserServices implements IUserServices {
     id: UUID,
     updatedUser: Omit<IUser, "id">
   ): Promise<IUser> {
-    const user = await this.userModel.getById(id);
+    const user = await this.userModel.getById(id, false);
 
     if (!user) throw notFound("User not found");
 
     const newUser = await this.userModel.update(id, updatedUser);
 
     return newUser;
+  }
+
+  // Teste 5
+  private async _incrementAccessCount(id: UUID): Promise<void> {
+    const user = await this.userModel.getById(id, true);
+
+    if (!user) throw notFound("User not found");
+
+    await this.userModel.update(id, {
+      name: user.name,
+      job: user.job,
+      accessCount: user.accessCount ? user.accessCount + 1 : 1,
+    });
+  }
+
+  // Teste 5
+  public async getUserAccessCount(id: UUID): Promise<IUser> {
+    const user = await this.userModel.getById(id, true);
+
+    if (!user) throw notFound("User not found");
+
+    return {
+      id: user.id,
+      name: user.name,
+      job: user.job,
+      accessCount: user.accessCount || 0,
+    };
   }
 }
