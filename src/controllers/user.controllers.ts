@@ -1,6 +1,7 @@
 import IUserControllers from "./interfaces/IUserControllers";
 import IUserServices from "../services/interfaces/IUserServices";
 import { Request, Response } from "express";
+import { UUID } from "crypto";
 
 export default class UserControllers implements IUserControllers {
   private userServices: IUserServices;
@@ -17,7 +18,7 @@ export default class UserControllers implements IUserControllers {
       buscado, pois é um valor único e por ser UUID é mais seguro contra
       ataques de força bruta (Ficar buscando por IDs sequenciais até encontrar)
     */
-    const user = await this.userServices.getById(id);
+    const user = await this.userServices.getById(id as UUID);
     return res.status(200).json({ user });
   };
 
