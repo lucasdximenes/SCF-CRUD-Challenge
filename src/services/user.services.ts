@@ -48,4 +48,17 @@ export default class UserServices implements IUserServices {
 
     await this.userModel.delete(id);
   }
+
+  public async update(
+    id: UUID,
+    updatedUser: Omit<IUser, "id">
+  ): Promise<IUser> {
+    const user = await this.userModel.getById(id);
+
+    if (!user) throw notFound("User not found");
+
+    const newUser = await this.userModel.update(id, updatedUser);
+
+    return newUser;
+  }
 }
