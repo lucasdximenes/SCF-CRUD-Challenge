@@ -32,6 +32,13 @@ export default class UserRoutes {
       usuário).
     */
 
+    this.router.get("/:id/access", this._userController.getUserAccessCount);
+    // Teste 5
+    /* 
+      Aqui nós adicionamos a rota `/:id/access` para buscar a quantidade
+      que o usuário com o ID `:id` foi acessado.
+    */
+
     this.router.post(
       "/",
       this._userMiddlewares.validateNewUser,
