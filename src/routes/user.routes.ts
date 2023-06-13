@@ -3,17 +3,21 @@ import UserModel from "../models/jsonModel/User.model";
 import UserServices from "../services/user.services";
 import UserControllers from "../controllers/user.controllers";
 
+import UserMiddlewares from "../middlewares/user/users.middlewares";
+
 export default class UserRoutes {
   public router: Router;
   private _userController: UserControllers;
   private _userServices: UserServices;
   private _userModel: UserModel;
+  private _userMiddlewares: UserMiddlewares;
 
   constructor() {
     this.router = Router();
     this._userModel = new UserModel();
     this._userServices = new UserServices(this._userModel);
     this._userController = new UserControllers(this._userServices);
+    this._userMiddlewares = new UserMiddlewares();
     this.configureRoutes();
   }
 
@@ -28,6 +32,10 @@ export default class UserRoutes {
       usuário).
     */
 
-    this.router.post("/", this._userController.create);
+    this.router.post(
+      "/",
+      this._userMiddlewares.validateNewUser,
+      this._userController.create
+    );
   }
 }
