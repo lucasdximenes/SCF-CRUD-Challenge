@@ -20,4 +20,9 @@ export default class UserControllers implements IUserControllers {
     const users = await this.userServices.getAll();
     return res.status(200).json(users);
   };
+
+  public create = async (req: Request, res: Response): Promise<Response> => {
+    const user = await this.userServices.create(req.body);
+    return res.status(201).json(user);
+  }
 }
