@@ -71,7 +71,8 @@ export default class UserModel implements IUserModel {
       escrever os dados no arquivo fakeData.json.
     */
 
-    return user;
+    const { permissions, accessCount, ...createdUser } = user;
+    return createdUser;
   }
 
   // Teste 3
