@@ -22,6 +22,7 @@ describe("UserServices", () => {
     const userModelMock: IUserModel = {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -37,6 +38,7 @@ describe("UserServices", () => {
     const userModelMock: IUserModel = {
       getById: sinon.stub().resolves(null),
       getAll: sinon.stub().resolves(null),
+      create: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -57,6 +59,7 @@ describe("UserServices", () => {
     const userModelMock: IUserModel = {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -64,5 +67,19 @@ describe("UserServices", () => {
     const users = await userServices.getAll();
 
     expect(users).to.be.deep.equal(usersMock);
+  });
+
+  it("should create() return a user", async () => {
+    const userModelMock: IUserModel = {
+      getById: sinon.stub().resolves(),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(userMock),
+    };
+
+    const userServices = new UserServices(userModelMock);
+
+    const user = await userServices.create(userMock);
+
+    expect(user).to.be.deep.equal(userMock);
   });
 });
