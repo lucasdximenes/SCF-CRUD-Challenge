@@ -23,6 +23,7 @@ describe("UserControllers", () => {
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -53,6 +54,7 @@ describe("UserControllers", () => {
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -77,6 +79,7 @@ describe("UserControllers", () => {
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(userMock),
       delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -103,6 +106,7 @@ describe("UserControllers", () => {
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
       delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -127,5 +131,36 @@ describe("UserControllers", () => {
     expect(res.json).to.have.been.calledWith({
       message: "Successfully deleted",
     });
+  });
+
+  it("should update() return status 200 and updated user", async () => {
+    const userServicesMock: IUserServices = {
+      getById: sinon.stub().resolves(),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
+      update: sinon.stub().resolves(userMock),
+    };
+
+    const userControllers = new UserControllers(userServicesMock);
+
+    const req = {
+      params: {
+        id: "e2d3286f-2d8f-471a-bacb-1e5d28d8727e",
+      },
+    } as unknown as Request;
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    } as unknown as Response;
+
+    await userControllers.update(req, res);
+
+    expect(userServicesMock.update).to.have.been.calledWith(
+      "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
+    );
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(userMock);
   });
 });
