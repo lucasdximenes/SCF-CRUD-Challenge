@@ -21,6 +21,7 @@ describe("UserControllers", () => {
     const userServicesMock: IUserServices = {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -49,6 +50,7 @@ describe("UserControllers", () => {
     const userServicesMock: IUserServices = {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(),
     };
 
     const userControllers = new UserControllers(userServicesMock);
@@ -65,5 +67,30 @@ describe("UserControllers", () => {
     expect(userServicesMock.getAll).to.have.been.called;
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(usersMock);
+  });
+
+  it("should create() return a user with status 201", async () => {
+    const userServicesMock: IUserServices = {
+      getById: sinon.stub().resolves(),
+      getAll: sinon.stub().resolves(usersMock),
+      create: sinon.stub().resolves(userMock),
+    };
+
+    const userControllers = new UserControllers(userServicesMock);
+
+    const req = {
+      body: userMock,
+    } as unknown as Request;
+
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    } as unknown as Response;
+
+    await userControllers.create(req, res);
+
+    expect(userServicesMock.create).to.have.been.calledWith(userMock);
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(userMock);
   });
 });
