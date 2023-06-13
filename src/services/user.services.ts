@@ -88,4 +88,13 @@ export default class UserServices implements IUserServices {
       accessCount: user.accessCount || 0,
     };
   }
+
+  // Teste 6
+  public async getUserPermissions(id: UUID): Promise<string[]> {
+    const user = await this.userModel.getById(id, false);
+
+    if (!user) throw notFound("User not found");
+
+    return this.userModel.getUserPermissions(id);
+  }
 }

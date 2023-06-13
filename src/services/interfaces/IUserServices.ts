@@ -8,4 +8,5 @@ export default interface IUserServices {
   delete(id: UUID): Promise<void>;
   update(id: UUID, user: Omit<IUser, "id">): Promise<IUser>;
   getUserAccessCount(id: UUID): Promise<IUser>;
+  getUserPermissions(id: UUID): Promise<string[]>;
 }
