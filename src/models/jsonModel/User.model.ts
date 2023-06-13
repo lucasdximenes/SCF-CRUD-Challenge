@@ -98,7 +98,8 @@ export default class UserModel implements IUserModel {
 
     const user: IUser = {
       id,
-      ...updatedUser,
+      name: updatedUser.name || users[userIndex].name,
+      job: updatedUser.job || users[userIndex].job,
     };
 
     users[userIndex] = user;
