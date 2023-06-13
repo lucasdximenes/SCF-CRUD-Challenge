@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 require("express-async-errors");
 import { Request, Response } from "express";
 import ErrorHandlingMiddleware from "./middlewares/error.middleware";
+import Routes from "./routes";
 
 const app = express();
 /* 
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/", (_req: Request, res: Response): void => {
   res.send("SCF - CRUD Challenge");
 });
+
+app.use(new Routes().router);
 
 app.use(ErrorHandlingMiddleware.handle);
 
