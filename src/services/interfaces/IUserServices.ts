@@ -5,4 +5,5 @@ export default interface IUserServices {
   getById(id: UUID): Promise<IUser | null>;
   getAll(): Promise<IUser[]>;
   create(user: Omit<IUser, "id">): Promise<IUser>;
+  delete(id: UUID): Promise<void>;
 }

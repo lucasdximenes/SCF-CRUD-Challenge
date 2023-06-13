@@ -34,4 +34,18 @@ export default class UserServices implements IUserServices {
 
     return newUser;
   }
+
+  public async delete(id: UUID): Promise<void> {
+    const user = await this.userModel.getById(id);
+
+    if (!user) throw notFound("User not found");
+    /* 
+      Aqui nós verificamos se o usuário existe, caso não exista, nós
+      lançamos um erro 404 utilizando o pacote Boom. É interessante
+      essa verificação pois caso o usuário não exista, nós não iremos
+      deletar nada do banco de dados.
+    */
+
+    await this.userModel.delete(id);
+  }
 }
