@@ -19,11 +19,11 @@ export default class UserControllers implements IUserControllers {
       ataques de força bruta (Ficar buscando por IDs sequenciais até encontrar)
     */
     const user = await this.userServices.getById(id as UUID);
-    return res.status(200).json({ user });
+    return res.status(200).json(user);
   };
 
   public getAll = async (_req: Request, res: Response): Promise<Response> => {
     const users = await this.userServices.getAll();
-    return res.status(200).json({ users });
+    return res.status(200).json(users);
   };
 }
