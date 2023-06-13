@@ -62,4 +62,15 @@ describe("User Model", () => {
     chai.expect(fs.writeFile).to.have.been.calledOnce;
     // Testa se o método writeFile foi chamado uma vez.
   });
+
+  it("Should update a user", async () => {
+    sinon.stub(fs, "readFile").resolves(JSON.stringify(usersMock));
+    sinon.stub(fs, "writeFile").resolves();
+
+    const userModel = new UserModel();
+    const user = await userModel.update(userMock);
+
+    chai.expect(user).to.be.deep.equal(userMock);
+    // Testa se o usuário retornado é igual ao usuário mockado.
+  });
 });
