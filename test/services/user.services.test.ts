@@ -23,6 +23,7 @@ describe("UserServices", () => {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -39,6 +40,7 @@ describe("UserServices", () => {
       getById: sinon.stub().resolves(null),
       getAll: sinon.stub().resolves(null),
       create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -60,6 +62,7 @@ describe("UserServices", () => {
       getById: sinon.stub().resolves(userMock),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(),
+      delete: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
@@ -74,6 +77,7 @@ describe("UserServices", () => {
       getById: sinon.stub().resolves(),
       getAll: sinon.stub().resolves(usersMock),
       create: sinon.stub().resolves(userMock),
+      delete: sinon.stub().resolves(),
     };
 
     const userServices = new UserServices(userModelMock);
