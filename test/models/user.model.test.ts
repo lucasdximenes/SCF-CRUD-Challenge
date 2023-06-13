@@ -70,7 +70,7 @@ describe("User Model", () => {
     const userModel = new UserModel();
     const user = await userModel.update(userMock.id, userMock);
 
-    chai.expect(user).to.be.deep.equal({ ...userMock, accessCount: 0 });
+    chai.expect(user).to.be.deep.equal(userMock);
     // Testa se o usuário retornado é igual ao usuário mockado.
   });
 

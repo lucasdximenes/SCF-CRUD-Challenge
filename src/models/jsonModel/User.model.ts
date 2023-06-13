@@ -50,7 +50,7 @@ export default class UserModel implements IUserModel {
 
   // Teste 2
   public async create(newUser: Omit<IUser, "id">): Promise<IUser> {
-    const users = await this.getAll(false);
+    const users = JSON.parse(await fs.readFile(jsonDatabasePath, "utf-8"));
     const user: IUser = {
       id: randomUUID(),
       /* 
@@ -77,8 +77,8 @@ export default class UserModel implements IUserModel {
 
   // Teste 3
   public async delete(id: UUID): Promise<void> {
-    const users = await this.getAll(false);
-    const filteredUsers = users.filter((user) => user.id !== id);
+    const users = JSON.parse(await fs.readFile(jsonDatabasePath, "utf-8"));
+    const filteredUsers = users.filter((user: IUser) => user.id !== id);
     /* 
       Aqui nós utilizamos o método filter() do JavaScript para filtrar os
       usuários que não tem o ID especificado. Ao invés de utilizar um for loop.
@@ -97,8 +97,8 @@ export default class UserModel implements IUserModel {
     id: UUID,
     updatedUser: Omit<IUser, "id">
   ): Promise<IUser> {
-    const users = await this.getAll(true);
-    const userIndex = users.findIndex((user) => user.id === id);
+    const users = JSON.parse(await fs.readFile(jsonDatabasePath, "utf-8"));
+    const userIndex = users.findIndex((user: IUser) => user.id === id);
     /* 
       Aqui nós utilizamos o método findIndex() do JavaScript para encontrar o
       índice do usuário com o id especificado. Ao invés de utilizar um for loop.
@@ -110,7 +110,8 @@ export default class UserModel implements IUserModel {
       name: updatedUser.name || users[userIndex].name,
       job: updatedUser.job || users[userIndex].job,
       accessCount: updatedUser.accessCount || users[userIndex].accessCount || 0,
-      permissions: updatedUser.permissions || users[userIndex].permissions,
+      permissions:
+        updatedUser.permissions || users[userIndex].permissions || [],
     };
 
     users[userIndex] = user;
@@ -121,7 +122,9 @@ export default class UserModel implements IUserModel {
       escrever os dados no arquivo fakeData.json.
     */
 
-    return user;
+    const { permissions, accessCount, ...updatedUserCleaned } = user;
+
+    return updatedUserCleaned;
   }
 
   // Teste 6
