@@ -4,6 +4,7 @@ import UserServices from "../services/user.services";
 import UserControllers from "../controllers/user.controllers";
 
 import UserMiddlewares from "../middlewares/user/users.middlewares";
+import AuthMiddleware from "../middlewares/auth.middleware";
 
 export default class UserRoutes {
   public router: Router;
@@ -11,6 +12,7 @@ export default class UserRoutes {
   private _userServices: UserServices;
   private _userModel: UserModel;
   private _userMiddlewares: UserMiddlewares;
+  private _authMiddleware: AuthMiddleware;
 
   constructor() {
     this.router = Router();
@@ -18,6 +20,7 @@ export default class UserRoutes {
     this._userServices = new UserServices(this._userModel);
     this._userController = new UserControllers(this._userServices);
     this._userMiddlewares = new UserMiddlewares();
+    this._authMiddleware = new AuthMiddleware(this._userServices);
     this.configureRoutes();
   }
 
@@ -52,7 +55,11 @@ export default class UserRoutes {
       tem nenhum dado a mais.
     */
 
-    this.router.delete("/:id", this._userController.delete);
+    this.router.delete(
+      "/:id",
+      this._authMiddleware.verifyDeletePermission, // Teste 6 - `Authorization` header
+      this._userController.delete
+    );
     // Teste 3
     /*
       Aqui nós adicionamos a rota `/:id` para deletar um usuário pelo
@@ -61,6 +68,7 @@ export default class UserRoutes {
 
     this.router.put(
       "/:id",
+      this._authMiddleware.verifyUpdatePermission, // Teste 6 - `Authorization` header
       this._userMiddlewares.validateUpdatedUser,
       this._userController.update
     );
