@@ -25,7 +25,7 @@ describe("User Model", () => {
     sinon.stub(fs, "readFile").resolves(JSON.stringify(usersMock));
 
     const userModel = new UserModel();
-    const user = await userModel.getById(userMock.id);
+    const user = await userModel.getById(userMock.id, false);
 
     chai.expect(user).to.be.deep.equal(userMock);
     // Testa se o usuário retornado é igual ao usuário mockado.
@@ -35,7 +35,7 @@ describe("User Model", () => {
     sinon.stub(fs, "readFile").resolves(JSON.stringify(usersMock));
 
     const userModel = new UserModel();
-    const users = await userModel.getAll();
+    const users = await userModel.getAll(false);
 
     chai.expect(users).to.be.deep.equal(usersMock);
     // Testa se os usuários retornados são iguais aos usuários mockados.
