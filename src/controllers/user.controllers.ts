@@ -37,4 +37,17 @@ export default class UserControllers implements IUserControllers {
     const user = await this.userServices.update(id as UUID, req.body);
     return res.status(200).json(user);
   };
+
+  public getUserAccessCount = async (
+    req: Request,
+    res: Response
+  ): Promise<Response> => {
+    const { id } = req.params;
+    const { name, accessCount } = await this.userServices.getUserAccessCount(
+      id as UUID
+    );
+    return res
+      .status(200)
+      .json({ message: `User ${name} has accessed ${accessCount} times` });
+  };
 }

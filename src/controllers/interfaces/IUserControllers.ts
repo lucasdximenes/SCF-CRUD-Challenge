@@ -6,4 +6,5 @@ export default interface IUserControllers {
   create(req: Request, res: Response): Promise<Response>;
   delete(req: Request, res: Response): Promise<Response>;
   update(req: Request, res: Response): Promise<Response>;
+  getUserAccessCount(req: Request, res: Response): Promise<Response>;
 }
