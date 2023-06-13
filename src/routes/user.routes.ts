@@ -37,5 +37,12 @@ export default class UserRoutes {
       this._userMiddlewares.validateNewUser,
       this._userController.create
     );
+    // Teste 2
+    /* 
+      Aqui nós adicionamos o middleware `validateNewUser` para validar
+      os dados do usuário antes de criar o usuário. Ter certeza que o
+      usuário tem todos os dados necessários para ser criado e que não
+      tem nenhum dado a mais.
+    */
   }
 }
