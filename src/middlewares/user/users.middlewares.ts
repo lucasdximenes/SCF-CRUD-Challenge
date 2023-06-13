@@ -1,6 +1,6 @@
 import { badData } from "@hapi/boom";
 import { Request, Response, NextFunction } from "express";
-import { newUserSchema } from "./schemas/user.shema";
+import { newUserSchema, updateUserSchema } from "./schemas/user.shema";
 
 export default class UserMiddlewares {
   public async validateNewUser(
@@ -22,6 +22,24 @@ export default class UserMiddlewares {
       evitar que isso aconteça, nós sobrescrevemos o body da requisição com o
       body validado.
     */
+
+    next();
+  }
+
+  public async validateUpdatedUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const updatedUser = updateUserSchema.safeParse(req.body);
+
+    console.log(updatedUser);
+
+    if (!updatedUser.success) {
+      throw badData(updatedUser.error.issues[0].message);
+    }
+
+    req.body = updatedUser.data;
 
     next();
   }

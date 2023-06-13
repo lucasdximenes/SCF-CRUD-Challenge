@@ -51,5 +51,16 @@ export default class UserRoutes {
       Aqui nós adicionamos a rota `/:id` para deletar um usuário pelo
       ID.
     */
+
+    this.router.put(
+      "/:id",
+      this._userMiddlewares.validateUpdatedUser,
+      this._userController.update
+    );
+    // Teste 4
+    /*
+      Aqui nós adicionamos a rota `/:id` para atualizar um usuário pelo
+      ID.
+    */
   }
 }
