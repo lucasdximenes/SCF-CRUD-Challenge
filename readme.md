@@ -50,7 +50,7 @@ Definina uma forma de criar permissão para o usuario, defina se o usuário pode
 
 - Clone o projeto
 - Instale as dependencias com `npm install`
-- Rode o projeto com `npm run dev para desenvolvimento` ou `npm start para produção`
+- Rode o projeto com `npm run dev` para desenvolvimento ou `npm start`  para produção
 - A API estará disponível em `http://localhost:3000`
 
 ## Como rodar os testes
