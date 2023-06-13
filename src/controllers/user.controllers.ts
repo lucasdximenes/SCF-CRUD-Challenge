@@ -29,6 +29,6 @@ export default class UserControllers implements IUserControllers {
   public delete = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     await this.userServices.delete(id as UUID);
-    return res.status(204).json({ message: "Successfully deleted" });
+    return res.status(200).json({ message: "Successfully deleted" });
   };
 }

@@ -44,5 +44,12 @@ export default class UserRoutes {
       usuário tem todos os dados necessários para ser criado e que não
       tem nenhum dado a mais.
     */
+
+    this.router.delete("/:id", this._userController.delete);
+    // Teste 3
+    /*
+      Aqui nós adicionamos a rota `/:id` para deletar um usuário pelo
+      ID.
+    */
   }
 }
