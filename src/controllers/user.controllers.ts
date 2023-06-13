@@ -24,5 +24,11 @@ export default class UserControllers implements IUserControllers {
   public create = async (req: Request, res: Response): Promise<Response> => {
     const user = await this.userServices.create(req.body);
     return res.status(201).json(user);
-  }
+  };
+
+  public delete = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+    await this.userServices.delete(id as UUID);
+    return res.status(204).json({ message: "Successfully deleted" });
+  };
 }

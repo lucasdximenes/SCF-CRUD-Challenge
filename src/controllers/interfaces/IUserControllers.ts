@@ -4,4 +4,5 @@ export default interface IUserControllers {
   getById(req: Request, res: Response): Promise<Response>;
   getAll(req: Request, res: Response): Promise<Response>;
   create(req: Request, res: Response): Promise<Response>;
+  delete(req: Request, res: Response): Promise<Response>;
 }
