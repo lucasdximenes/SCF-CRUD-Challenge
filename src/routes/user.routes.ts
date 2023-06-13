@@ -23,7 +23,7 @@ export default class UserRoutes {
     /* 
       Essa rota `/:id` que antes era so `/user` agora é `/:id`, pois
       estamos buscando por ID por ser um valor único e mais fácil de
-      ser buscado. Além disso, o ID é mais seguro contra ataques de
+      ser buscado. Além disso, o UUID é mais seguro contra ataques de
       força bruta (Ficar buscando por IDs sequenciais até encontrar um
       usuário).
     */
