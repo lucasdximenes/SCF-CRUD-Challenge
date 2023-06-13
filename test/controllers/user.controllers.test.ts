@@ -97,7 +97,7 @@ describe("UserControllers", () => {
     expect(res.json).to.have.been.calledWith(userMock);
   });
 
-  it("should delete() return status 204 and message 'Successfully deleted'", async () => {
+  it("should delete() return status 200 and message 'Successfully deleted'", async () => {
     const userServicesMock: IUserServices = {
       getById: sinon.stub().resolves(),
       getAll: sinon.stub().resolves(usersMock),
@@ -123,7 +123,7 @@ describe("UserControllers", () => {
     expect(userServicesMock.delete).to.have.been.calledWith(
       "e2d3286f-2d8f-471a-bacb-1e5d28d8727e"
     );
-    expect(res.status).to.have.been.calledWith(204);
+    expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith({
       message: "Successfully deleted",
     });
