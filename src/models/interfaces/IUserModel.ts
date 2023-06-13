@@ -6,6 +6,7 @@ export default interface IUserModel {
   getAll(): Promise<IUser[]>;
   create(user: Omit<IUser, "id">): Promise<IUser>;
   delete(id: UUID): Promise<void>;
+  update(id: UUID, user: Omit<IUser, "id">): Promise<IUser>;
 }
 
 /* 

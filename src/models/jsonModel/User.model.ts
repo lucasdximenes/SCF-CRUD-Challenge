@@ -82,4 +82,33 @@ export default class UserModel implements IUserModel {
       escrever os dados no arquivo fakeData.json.
     */
   }
+
+  // Teste 4
+  public async update(
+    id: UUID,
+    updatedUser: Omit<IUser, "id">
+  ): Promise<IUser> {
+    const users = await this.getAll();
+    const userIndex = users.findIndex((user) => user.id === id);
+    /* 
+      Aqui nós utilizamos o método findIndex() do JavaScript para encontrar o
+      índice do usuário com o id especificado. Ao invés de utilizar um for loop.
+      Isso faz com que o código fique mais legível e mais fácil de entender.
+    */
+
+    const user: IUser = {
+      id,
+      ...updatedUser,
+    };
+
+    users[userIndex] = user;
+
+    await fs.writeFile(jsonDatabasePath, JSON.stringify(users));
+    /* 
+      Aqui nós utilizamos o método writeFile() do módulo 'fs/promises' para
+      escrever os dados no arquivo fakeData.json.
+    */
+
+    return user;
+  }
 }
