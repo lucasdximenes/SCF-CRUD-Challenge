@@ -37,4 +37,15 @@ describe("User Model", () => {
     chai.expect(users).to.be.deep.equal(usersMock);
     // Testa se os usuários retornados são iguais aos usuários mockados.
   });
+
+  it("Should create a user", async () => {
+    sinon.stub(fs, "readFile").resolves(JSON.stringify(usersMock));
+    sinon.stub(fs, "writeFile").resolves();
+
+    const userModel = new UserModel();
+    const user = await userModel.create(userMock);
+
+    chai.expect(user).to.be.deep.equal(userMock);
+    // Testa se o usuário retornado é igual ao usuário mockado.
+  });
 });
