@@ -28,4 +28,10 @@ export default class UserServices implements IUserServices {
 
     return users; // Independente de ter usuários ou não, nós retornamos um array.
   }
+
+  public async create(user: Omit<IUser, "id">): Promise<IUser> {
+    const newUser = await this.userModel.create(user);
+
+    return newUser;
+  }
 }
